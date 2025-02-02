@@ -1,0 +1,37 @@
+
+
+.home-caption-container {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+  }
+  
+  .home-caption-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6347; /* Tomato color */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    animation: fadeIn 2s ease-in-out, moveUp 2s ease-in-out;
+    line-height: 1.5;
+  }
+  
+  /* Fade-in effect */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Move-up effect */
+  @keyframes moveUp {
+    from {
+      transform: translateY(20px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
