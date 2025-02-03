@@ -21,7 +21,7 @@ const Cart = () => {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
 
-  const style = {
+   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -34,7 +34,7 @@ const Cart = () => {
 
   return (
     <div>
-      <main className='lg:flex justify-between'>
+      <main className='lg:flex justify-between mt-10'>
 
         <section className='lg:w-[40%] space-y-6 lg:min-h-screen pt-10'>
           { items.map((item)=>(
@@ -105,6 +105,8 @@ const Cart = () => {
         </div>
       </main>
 
+
+{/* mui model to add new addresses */}
       <Modal
         open={open}
         onClose={handleClose}
