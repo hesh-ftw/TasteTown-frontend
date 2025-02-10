@@ -6,6 +6,8 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../State/Authentication/Action';
 
 
 // menu icons of profile page
@@ -21,8 +23,14 @@ const ProfileNavigation = (open, handleClose) => {
     const isSmallScreen= useMediaQuery("(max-width:1080)");
 
     const navigate= useNavigate();
-
+    const dispatch = useDispatch();
+    
     const handleNavigate=(item)=>{
+
+      if(item.title==="logout"){
+        dispatch(logout());
+        navigate('/')
+      }else
       navigate(`/my-profile/${item.title.toLowerCase()}`)
     }
 
