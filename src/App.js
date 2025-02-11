@@ -1,11 +1,47 @@
 import logo from './logo.svg';
 import './App.css';
+import NavBar from './component/NavBar';
+import Home from './component/Home/Home';
+import RestaurantDetails from './component/Restaurant/RestaurantDetails';
+import Cart from './component/Cart/Cart';
+import Profile from './component/Profile/Profile';
+import { Route, Routes } from 'react-router-dom';
+import Auth from './component/Auth/Auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from './component/State/store';
+import { useEffect } from 'react';
+import { getUser } from './component/State/Authentication/Action';
 
 function App() {
+
+  const dispatch=useDispatch();
+
+  const jwt=localStorage.getItem("jwt");
+  const {auth}= useSelector(store=>store);
+
+
+  useEffect(()=>{
+    dispatch(getUser(auth.jwt || jwt));
+   
+  }, [auth.jwt]);
+
+
+
+
+
   return (
-    <div>
-        <h1 className='text-green-900'> taste town app </h1>
-    </div>
+      <div>
+        <NavBar/>
+        <Routes>
+          <Route  path='/' element={<Home/>}/>
+          <Route  path='/my-profile/*' element={<Profile/>}/> 
+          <Route path='/cart' element={<Cart/>} />
+          <Route  path='/account/:register' element={<Home/>}/>
+          <Route  path='/admin/restaurant' element={<RestaurantDetails/>}/>
+        </Routes>
+        <Auth/>
+
+      </div>
   );
 }
 
