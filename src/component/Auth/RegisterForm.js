@@ -2,6 +2,8 @@ import { TextField, Typography, Button, FormControl, InputLabel, Select, MenuIte
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../State/Authentication/Action";
 
 const LoginForm = () => {
   const initialValues = {
@@ -10,9 +12,14 @@ const LoginForm = () => {
     password: "",
     role: ""
   };
+  const navigate= useNavigate();
+  const dispatch= useDispatch()
 
   const handleSubmit = (values) => {
     console.log("Form signup values:", values);
+
+    // navigate to RegisterUser function in authentication/Action.js to send api req.
+    dispatch(registerUser({userData:values, navigate}))
   };
 
   //const navigate = useNavigate();

@@ -2,6 +2,8 @@ import { TextField, Typography, Button } from "@mui/material";
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../State/Authentication/Action";
 
 const LoginForm = () => {
   const initialValues = {
@@ -9,8 +11,13 @@ const LoginForm = () => {
     password: "",
   };
 
+  const navigate=useNavigate()
+  const dispatch= useDispatch()
+
   const handleSubmit = (values) => {
     console.log("Form values:", values);
+
+    dispatch(loginUser({userData:values,navigate})) // navigate to loginUser function in auth action to send api req.
   };
 
  // const navigate = useNavigate();
@@ -69,6 +76,12 @@ const LoginForm = () => {
                   Reset 
             </Link>
             </div>
+            <div className="text-gray-400 ">
+                    Still don't have an account?
+                    <Link to={"/account/register"} className="ml-2 text-gray-200">
+                      Sign Up
+                    </Link>
+                  </div>
             
           </Form>
         )}
