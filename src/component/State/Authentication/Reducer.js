@@ -1,7 +1,7 @@
 import { isPresentInFavourites } from "../../Config/logic";
 import { ADD_TO_FAVOURITE_FALIURE, ADD_TO_FAVOURITE_REQUEST, ADD_TO_FAVOURITE_SUCCESS, 
     GET_USER_FALIURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FALIURE, LOGIN_REQUEST,
-     LOGIN_SUCCESS, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType";
+     LOGIN_SUCCESS, LOGOUT, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType";
 
 const initialState={
     user: null,
@@ -12,7 +12,7 @@ const initialState={
     success:null
 }
 
-const authReducer=(state=initialState, action)=>{
+ export const authReducer=(state=initialState, action)=>{
 
     switch (action.type) {
 
@@ -50,9 +50,12 @@ const authReducer=(state=initialState, action)=>{
             case GET_USER_FALIURE:
             case ADD_TO_FAVOURITE_FALIURE: 
                return{...state, isLoading:false, error:action.payload, success:null}
+
+            case LOGOUT:
+                return {initialState}
     
         default:
-            break;
+            return state;
     }
 
 }
