@@ -4,7 +4,8 @@ import { ADD_TO_FAVOURITE_FALIURE, ADD_TO_FAVOURITE_REQUEST, ADD_TO_FAVOURITE_SU
      GET_USER_REQUEST, 
      GET_USER_SUCCESS, 
      LOGIN_FALIURE, 
-     LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType"
+     LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS, 
+     REMOVE_FROM_FAVOURITE_SUCCESS} from "./ActionType"
 import { api, API_URL } from "../../Config/api"
 
 //register a new user
@@ -52,7 +53,9 @@ export const loginUser=(reqData)=> async(dispatch)=>{
         //save jwt in local storage
         if(data.jwt)localStorage.setItem("jwt", data.jwt); 
         
-        
+        //save user in local storage
+        if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
+
         if(data.role === "ROLE_RESTAURANT_OWNER"){
             reqData.navigate("/admin/restaurant")
         }
@@ -60,7 +63,7 @@ export const loginUser=(reqData)=> async(dispatch)=>{
             reqData.navigate("/")
         }
 
-        dispatch({type:LOGIN_SUCCESS,payload:data.jwt}) 
+        dispatch({type:LOGIN_SUCCESS,payload:data}) 
         console.log("login success", data)
 
     } catch(error){
@@ -97,17 +100,18 @@ export const getUser=(jwt)=> async(dispatch)=>{
 
 
 //add to favourite method
-export const addToFavourite =(jwt, restaurantId)=> async(dispatch)=>{
+export const addToFavourite =(jwt,restaurantId)=> async(dispatch)=>{
     dispatch({type: ADD_TO_FAVOURITE_REQUEST}) 
     try{
+        console.log("Calling addToFavourite with:", restaurantId);
+       
+
         //make api req
-        const response= await api.put(`/api/restaurants/fav/${restaurantId}`,{},{
-            Headers:{
+        const {data}= await api.put(`/api/restaurants/fav/${restaurantId}`,{},{
+            headers:{
                 Authorization: `Bearer ${jwt}`
             }
-        })
-        const data= response.data; //extract response data property 
-       
+        })       
 
         dispatch({type:ADD_TO_FAVOURITE_SUCCESS,payload:data}) 
         console.log(" user favourite ", data)
@@ -117,7 +121,26 @@ export const addToFavourite =(jwt, restaurantId)=> async(dispatch)=>{
         console.log("error", error)
     }
     
-}
+};
+
+//remove item from fav list of
+export const removeFromFavourite = (jwt, restaurantId) => async (dispatch) => {
+    //dispatch({ type: REMOVE_FROM_FAVOURITE_REQUEST });
+
+    try {
+        const { data } = await api.delete(`/api/restaurants/fav/remove/${restaurantId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+
+        dispatch({ type: REMOVE_FROM_FAVOURITE_SUCCESS, payload: data });
+    } catch (error) {
+        //dispatch({ type: REMOVE_FROM_FAVOURITE_FAILURE, payload: error.message });
+        console.error("Error removing from favourites:", error);
+    }
+};
+
 
 
 //logout method

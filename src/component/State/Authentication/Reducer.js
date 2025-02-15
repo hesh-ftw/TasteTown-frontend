@@ -1,7 +1,8 @@
 import { isPresentInFavourites } from "../../Config/logic";
 import { ADD_TO_FAVOURITE_FALIURE, ADD_TO_FAVOURITE_REQUEST, ADD_TO_FAVOURITE_SUCCESS, 
     GET_USER_FALIURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FALIURE, LOGIN_REQUEST,
-     LOGIN_SUCCESS, LOGOUT, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType";
+     LOGIN_SUCCESS, LOGOUT, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS, 
+     REMOVE_FROM_FAVOURITE_SUCCESS} from "./ActionType";
 
 const initialState={
     user: null,
@@ -27,11 +28,11 @@ const initialState={
 
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            return{...state, isLoading:false, error:null, success:"Register Success", jwt:action.payload};// add jwt in local storage
+            return{...state, isLoading:false, error:null, success:"Register Success", jwt:action.payload, user:action.payload};// add jwt in local storage
         
 
         case GET_USER_SUCCESS:
-            return{...state, isLoading:false, user:action.payload};
+            return{...state, isLoading:false, user:action.payload, favourites:action.payload.favourites};
             
         
         case ADD_TO_FAVOURITE_SUCCESS:
@@ -39,11 +40,20 @@ const initialState={
                 ...state,
                 isLoading:false,
                 error:null,
-                jwt:action.payload, 
-                favourites:isPresentInFavourites(state.favourites, action.payload) // check the retaurant come inside action.payload
-                    ?state.favourites.filter((item)=> item.id!==action.payload.id)
-                    :[action.payload,...state.favourites] //add restaurant to fav list
-                };
+                favourites: isPresentInFavourites(state.favourites, action.payload.id)  
+                ? state.favourites  // If already in favourites, don't add
+                : [...state.favourites, action.payload] // Add new favourite
+        };
+       
+
+        case REMOVE_FROM_FAVOURITE_SUCCESS:
+            return {
+                ...state,
+                success:true,
+                isLoading:false,
+                favourites: state.favourites.filter(item => item.id !== action.payload), // Remove favorite
+            };
+
 
             case REGISTER_FALIURE:
             case LOGIN_FALIURE:
@@ -52,7 +62,7 @@ const initialState={
                return{...state, isLoading:false, error:action.payload, success:null}
 
             case LOGOUT:
-                return {initialState}
+                return {...initialState};
     
         default:
             return state;
