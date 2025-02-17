@@ -2,14 +2,25 @@ import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { AppBar, Avatar, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Cart from './Cart/Cart';
 import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
+import { useSelector } from 'react-redux';
+
 
 function NavBar() {
 
-
+  const {auth,cart}=useSelector(store=>store)
   const navigate= useNavigate();
+
+  const handleAvatarClick = ()=>{
+      if(auth.user.role==="ROLE_CUSTOMER"){
+        navigate('/my-profile')
+      }
+      else{
+        navigate("/admin/restaurant")
+      }
+  }
+  //console.log("Auth state in NavBar:", auth);
 
   return (
 
@@ -37,20 +48,36 @@ function NavBar() {
                   <IconButton >
                       <ShoppingCartIcon
                         onClick={()=>{navigate("/cart")}}
-                        style={{fontSize:"20",color:"white" , marginTop:5}}> 
+                        style={{fontSize:"20",color:"white" , marginTop:5, marginRight:5}}> 
                       </ShoppingCartIcon>
                   </IconButton>
               
               </div>
 
-              <div className=''>
+              <div className="">
+                {auth.user ? (
+                  <Avatar sx={{ bgcolor: "white", color: 'gray',width: 25, height: 25 ,marginTop:1 }}
+                    onClick={handleAvatarClick}
+                   >
+                  {auth.user?.fullName ? auth.user.fullName[0].toUpperCase() : ""}
+                  </Avatar>
+                ) : (
+                  <IconButton onClick={() => navigate("/account/login")}>
+                    <PersonIcon />
+                  </IconButton>
+                )}
+            </div>
+
+              {/* <div className=''>
                 
-                     {false?  <Avatar onClick={()=>{navigate("/my-profile/")}} className='mt-2 ' style={{width: 25, height: 25,}}> C </Avatar>:
-                     <IconButton onClick={()=>{navigate("/account/register")}}>
-                      <PersonIcon/>
-                     </IconButton>
+                    {auth.user? ( <Avatar onClick={()=>{navigate("/my-profile/")}} className='mt-2 ' style={{width: 25, height: 25,}}> 
+                      {auth.user?.fullName[0].toUpperCase()} </Avatar>):
+
+                      ( <IconButton onClick={()=>{navigate("/account/register")}}>
+                        <PersonIcon/>
+                      </IconButton>)
                      }                       
-              </div>
+              </div> */}
 
         </div>      
       </div>
