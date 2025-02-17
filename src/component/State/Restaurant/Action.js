@@ -1,7 +1,7 @@
 import axios from "axios"
 import { CREATE_RESTAURANT_FAILURE, CREATE_RESTAURANT_REQUEST, CREATE_RESTAURANT_SUCCESS, DELETE_RESTAURANT_FAILURE, DELETE_RESTAURANT_REQUEST, DELETE_RESTAURANT_SUCCESS, GET_ALL_RESTAURANTS_FAILURE, GET_ALL_RESTAURANTS_REQUEST, GET_ALL_RESTAURANTS_SUCCESS, GET_RESTAURANTS_BY_ID_FAILURE, GET_RESTAURANTS_BY_ID_REQUEST, GET_RESTAURANTS_BY_ID_SUCCESS, GET_RESTAURANTS_BY_USERID_FAILURE, GET_RESTAURANTS_BY_USERID_REQUEST, GET_RESTAURANTS_BY_USERID_SUCCESS, SEARCH_RESTAURANTS_BY_NAME_FAILURE, SEARCH_RESTAURANTS_BY_NAME_REQUEST, SEARCH_RESTAURANTS_BY_NAME_SUCCESS, UPDATE_RESTAURANT_FAILURE, UPDATE_RESTAURANT_REQUEST, UPDATE_RESTAURANT_STATUS_FAILURE, UPDATE_RESTAURANT_STATUS_REQUEST, UPDATE_RESTAURANT_STATUS_SUCCESS, UPDATE_RESTAURANT_SUCCESS } from "./ActionType"
 import { api, API_URL } from "../../Config/api"
-import { data } from "react-router-dom";
+
 
 //creeate restaurant 
 export const createRestaurant= (reqData) => async(dispatch)=> {
@@ -11,7 +11,7 @@ export const createRestaurant= (reqData) => async(dispatch)=> {
     try {
         const {data}= await api.post(`/api/admin/restaurants/create`, reqData.data, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${reqData.token}`
             }
         });
         
@@ -19,7 +19,7 @@ export const createRestaurant= (reqData) => async(dispatch)=> {
         console.log('restaurant created ',data)
 
     } catch (error) {
-        dispatch({type:CREATE_RESTAURANT_FAILURE},payload.error)
+        dispatch({type:CREATE_RESTAURANT_FAILURE},error)
     }
 }
 
@@ -31,7 +31,7 @@ export const updateRestaurant= (reqData) => async(dispatch)=> {
     try {
         const {data}= await api.post(`/api/admin/restaurants/${reqData.restaurnatId}`, reqData.data,{
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${reqData.token}`
             }
         });
         
@@ -39,7 +39,7 @@ export const updateRestaurant= (reqData) => async(dispatch)=> {
         console.log('restaurant updated ',data)
 
     } catch (error) {
-        dispatch({type:UPDATE_RESTAURANT_FAILURE},payload.error)
+        dispatch({type:UPDATE_RESTAURANT_FAILURE},error)
     }
 }
 
@@ -48,7 +48,7 @@ export const deleteRestaurant= (restaurantId,jwt) => async(dispatch)=> {
     dispatch({type: DELETE_RESTAURANT_REQUEST})
 
     try {
-        const response= await api.delete(`/api/admin/restaurants/${restaurantId}`, reqData.data,{
+        const response= await api.delete(`/api/admin/restaurants/${restaurantId}`,{
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
@@ -58,13 +58,13 @@ export const deleteRestaurant= (restaurantId,jwt) => async(dispatch)=> {
         console.log('restaurant deleted ',response.data)
 
     } catch (error) {
-        dispatch({type:DELETE_RESTAURANT_FAILURE},payload.error)
+        dispatch({type:DELETE_RESTAURANT_FAILURE},error)
     }
 }
 
 
 //get all restaurants
-export const getAllRestaurants=(token)=>{
+export const getAllRestaurants=(jwt)=>{
     return async(dispatch)=>{
         dispatch({type: GET_ALL_RESTAURANTS_REQUEST});
 
@@ -72,7 +72,7 @@ export const getAllRestaurants=(token)=>{
             //call api endpoint
             const {data}= await axios.get(`${API_URL}/api/restaurants/all`, {
                 headers:{
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${jwt}`
                 },
             });
 
@@ -96,7 +96,7 @@ export const searchRestaurantsByName=(reqData)=>{
             //call api endpoint
             const {data}= await axios.get(`${API_URL}/api/restaurants/search/${reqData.restaurnatId}`, {
                 headers:{
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${reqData.token}`
                 },
             });
 
@@ -110,15 +110,15 @@ export const searchRestaurantsByName=(reqData)=>{
 };
 
 //get restaurant by id
-export const getRestaurantsById=(reqData)=>{
+export const getRestaurantById=(jwt, restaurantId)=>{
     return async(dispatch)=>{
         dispatch({type: GET_RESTAURANTS_BY_ID_REQUEST});
 
         try {
             //call api endpoint
-            const {data}= await axios.get(`${API_URL}/api/restaurants/${reqData.restaurnatId}`, {
+            const {data}= await axios.get(`${API_URL}/api/restaurants/${restaurantId}`, {
                 headers:{
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${jwt}`
                 },
             });
 
@@ -131,7 +131,7 @@ export const getRestaurantsById=(reqData)=>{
     }    
 };
 
-//get restaurants by user id(favourite restaurant list of user)
+//get restaurants by user id(favourite restaurant list of the user)
 export const getFavRestaurantsByUserId=(reqData)=>{
     return async(dispatch)=>{
         dispatch({type: GET_RESTAURANTS_BY_USERID_REQUEST});
@@ -140,7 +140,7 @@ export const getFavRestaurantsByUserId=(reqData)=>{
             //call api endpoint
             const {data}= await axios.get(`${API_URL}/api/restaurants/favouties/${reqData.userId}`, {
                 headers:{
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${reqData.token}`
                 },
             });
 

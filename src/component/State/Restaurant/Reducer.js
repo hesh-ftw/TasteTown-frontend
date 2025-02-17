@@ -31,7 +31,7 @@ export const restaurantReducer=(state=initialState, action)=>{
 
 
             case GET_ALL_RESTAURANTS_SUCCESS:
-                return {...state, restaurants:action.payload, success:true};
+                return {...state, restaurants:action.payload, success:true, isLoading:false};
 
             case GET_RESTAURANTS_BY_ID_SUCCESS:
                 return {...state, restaurant:action.payload, success:true};
