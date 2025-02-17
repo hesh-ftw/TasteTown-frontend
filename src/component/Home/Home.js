@@ -1,14 +1,30 @@
-import React from 'react';
-import LandingImage1 from './home.png'; // Adjust the path as per your file structure
-// import '../style.css';
+import React, { useEffect } from 'react';
+import LandingImage1 from './home.png'; 
 import MultiItemCarousel from './MultiItemCarousel.js';
 import RestaurantCard from './RestaurantCard.js';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllRestaurants } from '../State/Restaurant/Action.js';
+import { useNavigate } from 'react-router-dom';
+import { findCart, getAllCartItems } from '../State/Cart/Action.js';
+ 
+const restaurants=[1,1,1,1];
 function Home() {
+  const navigate=useNavigate();
+  const jwt = localStorage.getItem("jwt");
+  const dispatch= useDispatch();
+  
+ const {restaurant}= useSelector(store=>store)
+  // console.log('restaurants---',restaurant)
+  // console.log('cart----', cart)
 
-  const restaurant=[1,1,1,1];
+ 
+  useEffect(()=>{
+    dispatch(getAllRestaurants(jwt))
+    dispatch(findCart(jwt))
+  },[dispatch, jwt])
+
+
   return (
-
     <div>
         <div style={{width: '600px', height: '500px' }}>
             <img 
@@ -36,7 +52,7 @@ function Home() {
 
           <section>
             <p className='text-2xl font-semibold'
-                style={{color:'grey', padding:"10", marginBottom:50,  marginTop:150, marginLeft:70}}> Top Meals
+                style={{color:'grey', padding:"10", marginBottom:40,  marginTop:140, marginLeft:70}}> Top Meals
             </p>
           </section>
 
@@ -50,7 +66,7 @@ function Home() {
           </section>
       
           <div className='flex flex-wrap items-center justify-around gap-5'>
-            {restaurant.map((item)=><RestaurantCard/>)}
+            {restaurant.restaurants.map((item)=><RestaurantCard item={item}/>)}
           </div>
         
 
