@@ -1,10 +1,20 @@
 import React from "react";
 import { Button } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../State/Authentication/Action";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
+
+  const {auth}= useSelector(store=>store);
+
+  const dispatch = useDispatch();
+  const navigate= useNavigate();
   const handleLogout = () => {
-    console.log("User logged out"); // Replace with actual logout logic
+    console.log("User logged out"); 
+    dispatch(logout());
+    navigate('/');
   };
 
   return (
@@ -13,7 +23,7 @@ const UserProfile = () => {
       <div className="flex flex-col items-center justify-center">
         <AccountCircleIcon sx={{ fontSize: "9rem" }} />
         <h1 className="py-5 text-2xl font-semibold">Taste Town </h1>
-        <p>Email: ckkkkkkkkh@gmail.com</p>
+        <p>Email: {auth.user?.email}</p>
         <Button
 
           variant="contained"
