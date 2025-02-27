@@ -7,6 +7,7 @@ import { ADD_TO_FAVOURITE_FALIURE, ADD_TO_FAVOURITE_REQUEST, ADD_TO_FAVOURITE_SU
      LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FALIURE, REGISTER_REQUEST, REGISTER_SUCCESS, 
      REMOVE_FROM_FAVOURITE_SUCCESS} from "./ActionType"
 import { api, API_URL } from "../../Config/api"
+import toast, { Toaster } from "react-hot-toast"
 
 //register a new user
 export const registerUser=(reqData)=> async(dispatch)=>{
@@ -99,8 +100,10 @@ export const getUser=(jwt)=> async(dispatch)=>{
 }
 
 
+
 //add to favourite method
 export const addToFavourite =(jwt,restaurantId)=> async(dispatch)=>{
+
     dispatch({type: ADD_TO_FAVOURITE_REQUEST}) 
     try{
         console.log("Calling addToFavourite with:", restaurantId);
@@ -114,6 +117,9 @@ export const addToFavourite =(jwt,restaurantId)=> async(dispatch)=>{
         })       
 
         dispatch({type:ADD_TO_FAVOURITE_SUCCESS,payload:data}) 
+
+        toast.success(' restaurant added to favourite !')
+        
         console.log(" user favourite ", data)
 
     } catch(error){
@@ -135,6 +141,8 @@ export const removeFromFavourite = (jwt, restaurantId) => async (dispatch) => {
         });
 
         dispatch({ type: REMOVE_FROM_FAVOURITE_SUCCESS, payload: data });
+        toast.success(' restaurant removed from favourite !')
+
     } catch (error) {
         //dispatch({ type: REMOVE_FROM_FAVOURITE_FAILURE, payload: error.message });
         console.error("Error removing from favourites:", error);

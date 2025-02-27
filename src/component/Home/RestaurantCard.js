@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { addToFavourite, removeFromFavourite } from '../State/Authentication/Action';
 import { isPresentInFavourites } from '../Config/logic';
+import toast from 'react-hot-toast';
 
 
 const RestaurantCard = ({item}) => {
@@ -56,7 +57,7 @@ const RestaurantCard = ({item}) => {
               </p>
           </div>
           <div>
-              <IconButton onClick={handleAddToFav}>
+              <IconButton onClick={handleAddToFav} >
                   {isPresentInFavourites(auth.favourites,item)?<FavoriteIcon/> :  <FavoriteBorderIcon/>}
               </IconButton>
           </div>

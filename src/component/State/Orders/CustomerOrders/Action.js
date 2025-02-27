@@ -15,6 +15,11 @@ export const createOrder=(reqData)=>{
                 }
             });
 
+            if(data.paymentUrl){
+                //redirect to the url if exist
+                window.location.href= data.paymentUrl;
+            }
+
             console.log('order created success ', data);
             dispatch({type: CREATE_ORDER_SUCCESS, payload:data})
             toast.success('order placed succss !')

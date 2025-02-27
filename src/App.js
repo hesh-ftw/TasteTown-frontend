@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { store } from './component/State/store';
 import { useEffect } from 'react';
 import { getUser } from './component/State/Authentication/Action';
+import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
+import PaymentSuccess from './component/Payment/PaymentSuccess';
 
 function App() {
 
@@ -37,8 +40,11 @@ function App() {
           <Route  path='/my-profile/*' element={<Profile/>}/> 
           <Route path='/cart' element={<Cart/>} />
           <Route  path='/account/:register' element={<Home/>}/>
-          <Route  path='/admin/restaurant' element={<RestaurantDetails/>}/>
+          <Route  path='/restaurant/:name/:id' element={<RestaurantDetails/>}/>
+          <Route path='/payment/success/:id' element={<PaymentSuccess/>}/>
         </Routes>
+        
+        <Toaster position='bottom-center'/>   
         <Auth/>
 
       </div>

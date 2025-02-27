@@ -1,7 +1,7 @@
 import { TextField, Typography, Button } from "@mui/material";
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../State/Authentication/Action";
 
@@ -64,6 +64,7 @@ const LoginForm = () => {
               type="submit"
               variant="contained"
               color="primary"
+              //onClick={handleSubmit}
               fullWidth
               style={{ marginTop: "10px", backgroundColor: "gray" }}
             >
