@@ -14,6 +14,7 @@ import { getUser } from './component/State/Authentication/Action';
 import { ToastContainer } from 'react-toastify';
 import { Toaster } from 'react-hot-toast';
 import PaymentSuccess from './component/Payment/PaymentSuccess';
+import RecipeChatbot from './component/RecipeChatbot';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           <Route  path='/account/:register' element={<Home/>}/>
           <Route  path='/restaurant/:name/:id' element={<RestaurantDetails/>}/>
           <Route path='/payment/success/:id' element={<PaymentSuccess/>}/>
+          <Route path='/chatbot' element={<RecipeChatbot/>}/>
         </Routes>
         
         <Toaster position='bottom-center'/>   

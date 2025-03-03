@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllRestaurants } from '../State/Restaurant/Action.js';
 import { useNavigate } from 'react-router-dom';
 import { findCart, getAllCartItems } from '../State/Cart/Action.js';
+import { Button } from '@mui/material';
+import RecipeChatbot from '../RecipeChatbot.js';
  
 const restaurants=[1,1,1,1];
 function Home() {
@@ -16,6 +18,13 @@ function Home() {
  const {restaurant}= useSelector(store=>store)
   // console.log('restaurants---',restaurant)
   // console.log('cart----', cart)
+
+
+  const chatbotNavigate=()=>{
+    navigate("/chatbot");
+  }
+
+
 
  
   useEffect(()=>{
@@ -33,7 +42,7 @@ function Home() {
             style={{ width: '600px', height: '500px' }}/>
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: '-300px', marginLeft: '600px', }}>
+        <div style={{ textAlign: 'center', marginTop: '-350px', marginLeft: '600px', }}>
             <p 
             style={{
                 fontSize: '30px',
@@ -48,6 +57,11 @@ function Home() {
             🍛 One Platform, Endless Flavors! 🌟  <br/>
             Discover, Order, and Relish – All in Just a Few Clicks. 🍹
             </p>
+
+            <div className='m-5 text-center text-gray-400 text-1xl font-bold'>
+            Got Ingredients? Let's Make Something Tasty with AI! <br/>
+            <button onClick={chatbotNavigate} className='px-5 py-2 mt-2 rounded-lg p-10 bg-gray-600 text-gray-200' variant='contained'> Ask AI</button>
+            </div>
       </div>
 
           <section>
