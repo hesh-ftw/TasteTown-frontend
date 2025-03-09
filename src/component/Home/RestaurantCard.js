@@ -33,36 +33,32 @@ const RestaurantCard = ({item}) => {
 
 
   return (
-    <Card className="mb-8 mt-8 w-[18rem]" style={{backgroundColor:"grey"}} >
-      <div className={`${true ? "cursor-pointer" : "cursor-not-allowed"} relative`}>
-        <img
-          className="w-full h-[10rem] rounded-t-md object-cover" 
-          src={item.images?.[0] || item.image?.[0] || "fallback-image.jpg"}
-          alt="Restaurant"
-        />
-
+    <Card className="mb-8 mt-8 w-[18rem] h-[22rem] flex flex-col justify-between" style={{ backgroundColor: "grey" }}>
+    <div className="relative cursor-pointer">
+      <img
+        className="w-full h-[10rem] rounded-t-md object-cover"
+        src={item.images?.[0] || item.image?.[0] || "fallback-image.jpg"}
+        alt="Restaurant"
+      />
+    </div>
+  
+    <div className="p-4 textPart flex flex-col flex-grow">
+      <p onClick={navigateToRestaurant} className="font-semibold text-lg cursor-pointer">
+        {item.name || item.title}
+      </p>
+      
+      <p className="text-gray-5900 text-sm line-clamp-4">
+        {item.description}
+      </p>
+  
+      <div className="mt-auto flex justify-end">
+        <IconButton onClick={handleAddToFav}>
+          {isPresentInFavourites(auth.favourites, item) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
       </div>
-        
-      {/* <Chip
-      size="small"
-      className='absolute top-2 left-2'
-      color={true? "success":"error"}
-      label={true? "open": 'closed'}/> */}
-
-      <div className="p-4 textPart lg:flex w-full justify-between ">
-          <div className="space-y-1">
-              <p onClick={navigateToRestaurant} className="font-semibold text-lg cursor-pointer" >{item.name || item.title}</p>
-              <p className="Otext-gray-500 text-sm">
-              {item.description}
-              </p>
-          </div>
-          <div>
-              <IconButton onClick={handleAddToFav} >
-                  {isPresentInFavourites(auth.favourites,item)?<FavoriteIcon/> :  <FavoriteBorderIcon/>}
-              </IconButton>
-          </div>
-      </div>
-    </Card>
+    </div>
+  </Card>
+  
     
 
   );
