@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import { colors } from "@mui/material";
 
 function RecipeChatbot() {
   const [inputs, setInputs] = useState({

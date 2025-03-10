@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import NavBar from './component/NavBar';
 import Home from './component/Home/Home';
@@ -8,10 +7,8 @@ import Profile from './component/Profile/Profile';
 import { Route, Routes } from 'react-router-dom';
 import Auth from './component/Auth/Auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { store } from './component/State/store';
 import { useEffect } from 'react';
 import { getUser } from './component/State/Authentication/Action';
-import { ToastContainer } from 'react-toastify';
 import { Toaster } from 'react-hot-toast';
 import PaymentSuccess from './component/Payment/PaymentSuccess';
 import RecipeChatbot from './component/RecipeChatbot';

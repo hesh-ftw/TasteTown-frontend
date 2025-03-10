@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { addToFavourite, removeFromFavourite } from '../State/Authentication/Action';
 import { isPresentInFavourites } from '../Config/logic';
-import toast from 'react-hot-toast';
 
 
 const RestaurantCard = ({item}) => {
